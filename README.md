@@ -3,12 +3,15 @@
 _*Disclaimer:* This is not an officially supported Google product._
 
 This is expecially convenient for audio-books that are often encoded with
-unnecessarily high bandwidth.
+unnecessarily high bandwidth. And Opus is very well suited for low-bandwidth
+speech encoding.
 
-Opus is very well suited for low-bandwidth speech encoding.
-
-The script performs encoding using `ffmpeg`, or
-[`ffmpeg-normalize`](https://github.com/slhck/ffmpeg-normalize) if present.
+The script first checks the bandwidth of an input file using FFmpeg's
+[`ffprobe`](https://ffmpeg.org/ffprobe.html). If it's already low enough (at
+most twice the target), it just creates a symlink to it. Otherwise it
+re-encodes it using `ffmpeg` (or
+[`ffmpeg-normalize`](https://github.com/slhck/ffmpeg-normalize) if present).
+This makes the script [idempotent](https://en.wikipedia.org/wiki/Idempotence).
 
 ## Contributions
 
