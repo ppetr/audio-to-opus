@@ -23,6 +23,8 @@ import subprocess
 import sys
 import typing
 
+import ffmpeg_normalize
+
 
 def which(path: typing.Union[str, bytes, os.PathLike]) -> str:
   binary = shutil.which(path)
@@ -44,12 +46,13 @@ def ffprobe(path: typing.Union[str, bytes, os.PathLike]):
 def normalize(path: typing.Union[str, bytes, os.PathLike],
               output: typing.Union[str, bytes,
                                    os.PathLike], samplerate: int, bitrate: int):
-  subprocess.run([
-      which("ffmpeg-normalize"), path, "-c:a", "libopus", "-b:a",
-      "{}".format(bitrate), "-ar", "{}".format(samplerate), "-e",
-      "-map_metadata 0", "-o", output
-  ],
-                 check=True)
+  runner = ffmpeg_normalize.FFmpegNormalize(
+      audio_codec="libopus",
+      audio_bitrate=str(bitrate),
+      sample_rate=str(samplerate),
+      extra_output_options=["-map_metadata", "0"])
+  runner.add_media_file(path, output)
+  runner.run_normalization()
 
 
 def main():
