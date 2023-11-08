@@ -58,25 +58,23 @@ def normalize(path: typing.Union[str, bytes, os.PathLike],
 def main():
   parser = argparse.ArgumentParser(
       formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-  parser.add_argument('--bitrate',
+  parser.add_argument("--bitrate",
                       type=int,
                       default=32768,
-                      help='The target bitrate.')
-  parser.add_argument(
-      '--samplerate',
-      type=int,
-      default=16000,
-      help=
-      'The target sample rate - must be within the acceptable range depending on --bitrate.'
-  )
-  parser.add_argument('input', help='The input audio file.')
-  parser.add_argument('output', help='The output OPUS audio file.')
+                      help="The target bitrate.")
+  parser.add_argument("--samplerate",
+                      type=int,
+                      default=16000,
+                      help="The target sample rate - must be within the "
+                      "acceptable range depending on --bitrate.")
+  parser.add_argument("input", help="The input audio file.")
+  parser.add_argument("output", help="The output OPUS audio file.")
   args = parser.parse_args()
 
   info = ffprobe(args.input)
   logging.debug("ffprobe result: %s", info)
-  bitrate = int(info['format']['bit_rate'])
-  samplerate = info['streams'][0].get('sample_rate')
+  bitrate = int(info["format"]["bit_rate"])
+  samplerate = info["streams"][0].get("sample_rate")
   print("Input bitrate: {}".format(bitrate))
   if bitrate <= 2 * args.bitrate:
     print("Target bitrate is already low enough (<= {})".format(2 *
