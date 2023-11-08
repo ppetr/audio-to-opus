@@ -24,6 +24,7 @@ import sys
 import typing
 
 import ffmpeg_normalize
+import prefixed
 
 
 def which(path: typing.Union[str, bytes, os.PathLike]) -> str:
@@ -59,11 +60,11 @@ def main():
   parser = argparse.ArgumentParser(
       formatter_class=argparse.ArgumentDefaultsHelpFormatter)
   parser.add_argument("--bitrate",
-                      type=int,
+                      type=prefixed.Float,
                       default=32768,
                       help="The target bitrate.")
   parser.add_argument("--samplerate",
-                      type=int,
+                      type=prefixed.Float,
                       default=16000,
                       help="The target sample rate - must be within the "
                       "acceptable range depending on --bitrate.")
@@ -87,7 +88,7 @@ def main():
     if samplerate > args.samplerate:
       print("Reducing sample rate to {}".format(args.samplerate))
       samplerate = args.samplerate
-    normalize(args.input, args.output, samplerate, args.bitrate)
+    normalize(args.input, args.output, int(samplerate), int(args.bitrate))
 
 
 if __name__ == "__main__":
