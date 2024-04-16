@@ -13,6 +13,28 @@ re-encodes it using `ffmpeg` (or
 [`ffmpeg-normalize`](https://github.com/slhck/ffmpeg-normalize) if present).
 This makes the script [idempotent](https://en.wikipedia.org/wiki/Idempotence).
 
+# Installation
+
+Prerequisites:
+
+- Installed [`pipx`](https://pipx.pypa.io/stable/).
+- Installed [`ffmpeg`](https://ffmpeg.org/download.html).
+
+After checking out the repository run this command inside the checked out
+directory:
+
+```sh
+pipx install .
+```
+
+Append `--force` if reinstalling over a previous version.
+
+## Usage
+
+```sh
+audio2opus [-h] [--bitrate BITRATE] [--samplerate SAMPLERATE] input output
+```
+
 ## Contributions
 
 Please see [Code of Conduct](docs/code-of-conduct.md) and
