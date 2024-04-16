@@ -51,6 +51,7 @@ def normalize(path: typing.Union[str, bytes, os.PathLike],
       audio_codec="libopus",
       audio_bitrate=str(bitrate),
       sample_rate=str(samplerate),
+      keep_lra_above_loudness_range_target=True,
       extra_output_options=["-map_metadata", "0"])
   runner.add_media_file(path, output)
   runner.run_normalization()
