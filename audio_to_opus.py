@@ -84,6 +84,10 @@ def main():
     print("Target bitrate is already low enough (<= {})".format(2 *
                                                                 args.bitrate))
     relative = os.path.relpath(args.input, start=os.path.dirname(args.output))
+    try:
+      os.unlink(args.output)
+    except FileNotFoundError:
+      pass
     os.symlink(relative, args.output)
   else:
     print("Input sample rate: {}".format(samplerate))
