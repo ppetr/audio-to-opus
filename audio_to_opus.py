@@ -73,9 +73,12 @@ def main():
   args = parser.parse_args()
 
   info = ffprobe(args.input)
-  logging.debug("ffprobe result: %s", info)
-  bitrate = int(info["format"]["bit_rate"])
-  samplerate = info["streams"][0].get("sample_rate")
+  logging.debug("ffprobe result:\n%s", json.dumps(info, indent=2))
+  try:
+    bitrate = int(info["format"]["bit_rate"])
+    samplerate = info["streams"][0].get("sample_rate")
+  except (IndexError, KeyError) as ex:
+    raise ValueError("ffprobe result: {}".format(info)) from ex
   print("Input bitrate: {}".format(bitrate))
   if bitrate <= 2 * args.bitrate:
     print("Target bitrate is already low enough (<= {})".format(2 *
