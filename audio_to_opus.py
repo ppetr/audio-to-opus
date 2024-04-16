@@ -65,7 +65,7 @@ def main():
                       help="The target bitrate.")
   parser.add_argument("--samplerate",
                       type=prefixed.Float,
-                      default=16000,
+                      default=48000,
                       help="The target sample rate - must be within the "
                       "acceptable range depending on --bitrate.")
   parser.add_argument("input", help="The input audio file.")
@@ -92,8 +92,8 @@ def main():
   else:
     print("Input sample rate: {}".format(samplerate))
     samplerate = sys.maxsize if samplerate is None else int(samplerate)
-    if samplerate > args.samplerate:
-      print("Reducing sample rate to {}".format(args.samplerate))
+    if samplerate != args.samplerate:
+      print("Resampling to rate {}".format(args.samplerate))
       samplerate = args.samplerate
     normalize(args.input, args.output, int(samplerate), int(args.bitrate))
 
